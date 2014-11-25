@@ -54,10 +54,10 @@ def hierarchyDraw(Z, labels):
 
 init()
 
-gds4847 = robjects.r.getGEO(filename = "/home/artem/projects/dimplom/tools/clusters/samples/GDS4847_full.soft")
+gds4847 = robjects.r.getGEO(filename = "./samples/GDS4847_full.soft.gz")
 sampleNames1, data1 = getDataTable(gds4847)
 
-gds4840 = robjects.r.getGEO(filename = "/home/artem/projects/dimplom/tools/clusters/samples/GDS4840_full.soft")
+gds4840 = robjects.r.getGEO(filename = "./samples/GDS4840_full.soft.gz")
 sampleNames2, data2 = getDataTable(gds4840)
 
 data = norm(data1) + norm(data2)
