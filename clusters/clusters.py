@@ -9,7 +9,6 @@ def init():
 	robjects.r.library("Biobase")
 	robjects.r.library("GEOquery")	
 
-
 def getMetaStrInfo(softFile, info):
 	result = robjects.r["$"](robjects.r.Meta(softFile), info)
 
@@ -31,7 +30,11 @@ def getDataTable(softFile):
 	for i in range(0, sampleCount):
 		featureList.append([])
 		for j in range(0, featureCount):
-			featureList[i].append(table[i + shift][j])
+			try:
+				featureList[i].append(float(table[i + shift][j]))
+			except ValueError:
+				featureList[i].append(0.0)
+
 	data = [map(float, featureList[i]) for i in range(0, sampleCount)]
 
 	return sampleNames, data
@@ -139,20 +142,19 @@ def hierarchyTest():
 
 init()
 
-gds4840 = robjects.r.getGEO(filename = "./samples/GDS4840_full.soft.gz")
-geneList = getGeneList(gds4840)
+gds4840 = robjects.r.getGEO(filename = "./samples/GDS1649_full.soft.gz")
+#geneList = getGeneList(gds4840)
 sampleNames, samples = getDataTable(gds4840)
-genes = getGeneList(gds4840, True)
-clusters = getClusters(samples)
-topGenes = getListTopGenes(samples, genes, clusters, 6, 7, 100)
+#genes = getGeneList(gds4840, True)
+#clusters = getClusters(samples)
+#topGenes = getListTopGenes(samples, genes, clusters, 6, 7, 100)
 #print(clusters)
 #print(topGenes)
-f = open('topGenes.txt', 'w')
-for i in range(len(topGenes)):
-	f.write(topGenes[i][0] + "\n")
+#f = open('topGenes.txt', 'w')
+#for i in range(len(topGenes)):
+#	f.write(topGenes[i][0] + "\n")
 
-print(clusters)
-drawClusters(samples, sampleNames, True)
+drawClusters(samples, sampleNames, False)
 #f = open('genes_gds4847', 'w')
 #for gene in geneList:
 #	f.write("%s\n" % gene)
